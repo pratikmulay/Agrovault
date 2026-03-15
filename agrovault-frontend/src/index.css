@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+    background-color: #f9fafb; /* minimal light gray background */
+    color: #111827;
+  }
+}
