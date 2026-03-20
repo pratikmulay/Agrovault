@@ -5,23 +5,17 @@ import { PlusCircle, Thermometer, Edit2, XCircle } from 'lucide-react';
 const OwnerDashboard = () => {
     const [storages, setStorages] = useState([]);
     const [cities, setCities] = useState([]);
-    const [loading, setLoading] = useState(false);
 
     // Modals state
     const [showAddModal, setShowAddModal] = useState(false);
     const [addForm, setAddForm] = useState({ name: '', cityId: '', totalCapacity: '', temperatureMin: '', temperatureMax: '' });
     const [apiError, setApiError] = useState('');
 
-    useEffect(() => {
-        fetchMyStorages();
-        fetchCities();
-    }, []);
-
     const fetchMyStorages = async () => {
         try {
             const res = await api.get('/storages/owner');
             if (res.data.success) setStorages(res.data.data);
-        } catch (err) {
+        } catch {
             console.error('Failed to load owned storages');
         }
     };
@@ -30,10 +24,18 @@ const OwnerDashboard = () => {
         try {
             const res = await api.get('/cities');
             if (res.data.success) setCities(res.data.data);
-        } catch (err) {
+        } catch {
             console.error('Failed to fetch cities');
         }
     };
+
+    useEffect(() => {
+        const loadDashboard = async () => {
+            await Promise.all([fetchMyStorages(), fetchCities()]);
+        };
+
+        loadDashboard();
+    }, []);
 
     const handleAddStorage = async (e) => {
         e.preventDefault();
@@ -57,7 +59,7 @@ const OwnerDashboard = () => {
             try {
                 await api.put(`/storages/${storage.id}/capacity`, { availableCapacity: parseFloat(newCap) });
                 fetchMyStorages();
-            } catch (err) {
+            } catch {
                 alert('Capacity update failed.');
             }
         }
@@ -75,7 +77,7 @@ const OwnerDashboard = () => {
                     humidity: parseFloat(hum)
                 });
                 alert('Temperature logged successfully!');
-            } catch (err) {
+            } catch {
                 alert('Temperature logging failed.');
             }
         }

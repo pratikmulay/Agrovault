@@ -16,7 +16,7 @@ const AdminDashboard = () => {
             if (res.data.success) {
                 setBookings(res.data.data);
             }
-        } catch (err) {
+        } catch {
             console.error('Failed to load bookings');
         } finally {
             setLoading(false);
@@ -27,7 +27,7 @@ const AdminDashboard = () => {
         try {
             await api.put(`/bookings/${bookingId}/status?status=${newStatus}`);
             fetchBookings();
-        } catch (err) {
+        } catch {
             alert('Failed to update status');
         }
     };

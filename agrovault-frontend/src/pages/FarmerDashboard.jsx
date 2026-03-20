@@ -22,6 +22,20 @@ const FarmerDashboard = () => {
 
     const produceOptions = ['Grapes', 'Onions', 'Pomegranate', 'Tomatoes', 'Mangoes', 'Oranges', 'Bananas'];
 
+    const runSearch = async (cityName) => {
+        setLoading(true);
+        try {
+            const res = await api.get(`/storages/city?city=${cityName}`);
+            if (res.data.success) {
+                setStorages(res.data.data);
+            }
+        } catch {
+            console.error('Search failed');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         fetchCities();
         fetchMyBookings();
@@ -31,7 +45,7 @@ const FarmerDashboard = () => {
         try {
             const res = await api.get('/cities');
             if (res.data.success) setCities(res.data.data);
-        } catch (err) {
+        } catch {
             console.error('Failed to load cities');
         }
     };
@@ -40,7 +54,7 @@ const FarmerDashboard = () => {
         try {
             const res = await api.get('/bookings/user');
             if (res.data.success) setBookings(res.data.data);
-        } catch (err) {
+        } catch {
             console.error('Failed to load bookings');
         }
     };
@@ -49,15 +63,7 @@ const FarmerDashboard = () => {
         e.preventDefault();
         if (!selectedCity) return;
 
-        setLoading(true);
-        try {
-            const res = await api.get(`/storages/city?city=${selectedCity}`);
-            if (res.data.success) setStorages(res.data.data);
-        } catch (err) {
-            console.error('Search failed');
-        } finally {
-            setLoading(false);
-        }
+        await runSearch(selectedCity);
     };
 
     const handleBook = async (e) => {
@@ -76,7 +82,7 @@ const FarmerDashboard = () => {
                     setBookingModal({ show: false, storage: null });
                     setBookingSuccess('');
                     setBookingForm({ produceType: 'Onions', quantity: '', startDate: '', endDate: '' });
-                    handleSearch({ preventDefault: () => { } }); // refresh storages to update capacities
+                    runSearch(selectedCity);
                 }, 1500);
             }
         } catch (err) {
