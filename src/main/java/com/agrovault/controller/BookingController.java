@@ -18,6 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/bookings")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class BookingController {
 
@@ -56,5 +57,12 @@ public class BookingController {
             @RequestParam BookingStatus status) {
         BookingResponse response = bookingService.updateBookingStatus(id, status);
         return ResponseEntity.ok(ApiResponse.success("Booking status updated", response));
+    }
+
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<List<BookingResponse>>> getAllBookings() {
+        List<BookingResponse> bookings = bookingService.getAllBookings();
+        return ResponseEntity.ok(ApiResponse.success(bookings));
     }
 }

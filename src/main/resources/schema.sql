@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS bookings (
 
 -- Temperature Logs
 CREATE TABLE IF NOT EXISTS temperature_logs (
-    id          SERIAL           PRIMARY KEY,
+    id          BIGSERIAL        PRIMARY KEY,
     storage_id  UUID             NOT NULL REFERENCES storages(id),
     temperature DOUBLE PRECISION NOT NULL,
     humidity    DOUBLE PRECISION,

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -29,5 +30,11 @@ public class AuthController {
     public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody LoginRequest request) {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(ApiResponse.success("Login successful", response));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<AuthResponse>> getCurrentUser(java.security.Principal principal) {
+        AuthResponse response = authService.getCurrentUser(principal.getName());
+        return ResponseEntity.ok(ApiResponse.success("Current user fetched successfully", response));
     }
 }

@@ -31,10 +31,8 @@ public class Storage {
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
-    @Column(nullable = false)
     private Double latitude;
 
-    @Column(nullable = false)
     private Double longitude;
 
     @Column(name = "total_capacity", nullable = false)

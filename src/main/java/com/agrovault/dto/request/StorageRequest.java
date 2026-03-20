@@ -17,10 +17,8 @@ public class StorageRequest {
     @NotNull
     private Integer cityId;
 
-    @NotNull
     private Double latitude;
 
-    @NotNull
     private Double longitude;
 
     @NotNull

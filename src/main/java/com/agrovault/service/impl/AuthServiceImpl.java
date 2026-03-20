@@ -65,4 +65,17 @@ public class AuthServiceImpl implements AuthService {
                 .email(user.getEmail())
                 .build();
     }
+
+    @Override
+    public AuthResponse getCurrentUser(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+
+        return AuthResponse.builder()
+                .token("") // Not needed for profile fetch
+                .role(user.getRole().name())
+                .name(user.getName())
+                .email(user.getEmail())
+                .build();
+    }
 }

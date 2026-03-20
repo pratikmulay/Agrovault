@@ -44,8 +44,8 @@ public class StorageServiceImpl implements StorageService {
                 .name(request.getName())
                 .owner(owner)
                 .city(city)
-                .latitude(request.getLatitude())
-                .longitude(request.getLongitude())
+                .latitude(resolveLatitude(request, city))
+                .longitude(resolveLongitude(request, city))
                 .totalCapacity(request.getTotalCapacity())
                 .availableCapacity(request.getTotalCapacity())
                 .temperatureMin(request.getTemperatureMin())
@@ -72,8 +72,8 @@ public class StorageServiceImpl implements StorageService {
 
         storage.setName(request.getName());
         storage.setCity(city);
-        storage.setLatitude(request.getLatitude());
-        storage.setLongitude(request.getLongitude());
+        storage.setLatitude(resolveLatitude(request, city));
+        storage.setLongitude(resolveLongitude(request, city));
         storage.setTotalCapacity(request.getTotalCapacity());
         storage.setTemperatureMin(request.getTemperatureMin());
         storage.setTemperatureMax(request.getTemperatureMax());
@@ -154,5 +154,13 @@ public class StorageServiceImpl implements StorageService {
                 .cityName(storage.getCity().getName())
                 .ownerName(storage.getOwner().getName())
                 .build();
+    }
+
+    private Double resolveLatitude(StorageRequest request, City city) {
+        return request.getLatitude() != null ? request.getLatitude() : city.getLatitude();
+    }
+
+    private Double resolveLongitude(StorageRequest request, City city) {
+        return request.getLongitude() != null ? request.getLongitude() : city.getLongitude();
     }
 }

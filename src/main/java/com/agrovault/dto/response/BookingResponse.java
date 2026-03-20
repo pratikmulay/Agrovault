@@ -2,6 +2,7 @@ package com.agrovault.dto.response;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -10,7 +11,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookingResponse {
+public class BookingResponse implements Serializable {
 
     private UUID id;
     private String storageName;

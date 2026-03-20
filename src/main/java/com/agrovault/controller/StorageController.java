@@ -19,6 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/storages")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class StorageController {
 
@@ -64,6 +65,13 @@ public class StorageController {
     public ResponseEntity<ApiResponse<List<StoragesByCityResponse>>> getStoragesByCity(
             @RequestParam String city) {
         List<StoragesByCityResponse> storages = storageService.getStoragesByCity(city);
+        return ResponseEntity.ok(ApiResponse.success(storages));
+    }
+
+    @GetMapping("/owner")
+    @PreAuthorize("hasRole('STORAGE_OWNER')")
+    public ResponseEntity<ApiResponse<List<StorageResponse>>> getOwnerStorages(Authentication authentication) {
+        List<StorageResponse> storages = storageService.getOwnerStorages(authentication.getName());
         return ResponseEntity.ok(ApiResponse.success(storages));
     }
 }

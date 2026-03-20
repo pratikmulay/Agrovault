@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/temperature-logs")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class TemperatureLogController {
 
